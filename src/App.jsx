@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from './components/Layout';
-import { Layers, SplitSquareHorizontal, Image as ImageIcon, Type, RotateCw, Trash2, FileImage, Hash, Unlock, Lock } from 'lucide-react';
+import { Layers, SplitSquareHorizontal, Image as ImageIcon, Type, RotateCw, Trash2, FileImage, Hash, Lock } from 'lucide-react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import ToolPage from './pages/ToolPage';
 
@@ -52,12 +52,6 @@ const tools = [
     title: 'Image to PDF',
     description: 'Convert JPG, PNG, or TIFF images to PDF document.',
     icon: <ImageIcon size={32} />,
-  },
-  {
-    id: 'unlock',
-    title: 'Unlock PDF',
-    description: 'Remove PDF password security recursively with decryption.',
-    icon: <Unlock size={32} />,
   },
   {
     id: 'protect',

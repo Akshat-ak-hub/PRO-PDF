@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 import ToolContainer from '../components/ToolContainer';
-import { mergePdfs, splitPdf, addWatermark, convertImageToPdf, rotatePdf, removePages, addPageNumbers, extractPdfToImages, unlockPdf } from '../utils/pdfOperations';
+import { mergePdfs, splitPdf, addWatermark, convertImageToPdf, rotatePdf, removePages, addPageNumbers, extractPdfToImages } from '../utils/pdfOperations';
 
 export default function ToolPage() {
   const { id } = useParams();
@@ -128,31 +128,7 @@ export default function ToolPage() {
         onProcess: (files) => convertImageToPdf(files),
       };
       break;
-    case 'unlock':
-      toolProps = {
-        title: 'Unlock PDF',
-        description: 'Remove PDF password security.',
-        accept: { 'application/pdf': ['.pdf'] },
-        multiple: false,
-        renderOptions: (options, setOptions) => (
-          <div>
-            <h4 style={{ marginBottom: '0.75rem', fontWeight: 700 }}>Document Password</h4>
-            <input 
-              type="password" 
-              className="btn btn-secondary" 
-              style={{ width: '100%', cursor: 'text', textAlign: 'left', padding: '1rem' }} 
-              placeholder="Enter password..."
-              value={options.password || ''}
-              onChange={e => setOptions({...options, password: e.target.value})}
-            />
-          </div>
-        ),
-        onProcess: (files, options) => {
-          if (!options.password) throw new Error("Please enter a password.");
-          return unlockPdf(files[0], options.password);
-        },
-      };
-      break;
+    
     case 'protect':
       toolProps = {
         title: 'Protect PDF',

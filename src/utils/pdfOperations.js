@@ -1,8 +1,9 @@
 import { PDFDocument, rgb, degrees, StandardFonts } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// Use CDN for worker to bypass bundler setup for Vite
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+// Use Vite-bundled worker URL for stable local/dev/prod behavior.
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 
 export async function mergePdfs(files) {
   const mergedPdf = await PDFDocument.create();
@@ -157,10 +158,4 @@ export async function extractPdfToImages(file) {
   return imageBlobs;
 }
 
-export async function unlockPdf(file, password) {
-  const arrayBuffer = await file.arrayBuffer();
-  // PDFDocument.load automatically decrypts if standard encryption is used and password provided
-  const pdfDoc = await PDFDocument.load(arrayBuffer, { password });
-  const pdfBytes = await pdfDoc.save(); // Saved unprotected
-  return new Blob([pdfBytes], { type: 'application/pdf' });
-}
+
