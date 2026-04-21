@@ -27,7 +27,7 @@ export default function ToolContainer({ title, description, onProcess, accept, m
       setResult(output);
     } catch (error) {
       console.error("Processing failed", error);
-      alert("An error occurred while processing files. Check the console for more details.");
+      alert(`An error occurred while processing files: ${error?.message || 'Unknown error'}`);
     } finally {
       setProcessing(false);
     }
@@ -49,7 +49,11 @@ export default function ToolContainer({ title, description, onProcess, accept, m
       saveAs(content, "propdf_output_files.zip");
     } else {
       const { saveAs } = await import('file-saver');
-      saveAs(result, "propdf_output.pdf");
+      if (result.blob && result.filename) {
+        saveAs(result.blob, result.filename);
+      } else {
+        saveAs(result, "propdf_output.pdf");
+      }
     }
   };
 
